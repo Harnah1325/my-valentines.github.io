@@ -1,5 +1,7 @@
- // Create hearts effect
- function createHearts() {
+// ==============================
+// Hearts background effect
+// ==============================
+function createHearts() {
     const hearts = document.querySelector('.hearts');
     const heart = document.createElement('div');
     heart.classList.add('heart');
@@ -10,9 +12,12 @@
     setTimeout(() => heart.remove(), 5000);
 }
 
+// Continuously create hearts
 setInterval(createHearts, 300);
 
-// Move "No" button function
+// ==============================
+// Move "No" button when hovered or clicked
+// ==============================
 function moveButton(button) {
     const x = Math.random() * (window.innerWidth - button.offsetWidth);
     const y = Math.random() * (window.innerHeight - button.offsetHeight);
@@ -22,7 +27,9 @@ function moveButton(button) {
     button.style.top = `${y}px`;
 }
 
-// Navigation functions
+// ==============================
+// Navigation between steps
+// ==============================
 function goToStep2() {
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
@@ -35,18 +42,46 @@ function goToStep3() {
     triggerConfetti();
 }
 
+// ==============================
+// Final step with WhatsApp + Facebook buttons
+// ==============================
 function finalStep() {
+    // Hide previous step
     document.getElementById('step3').classList.remove('active');
+
+    // Show final message
     document.querySelector('.final-message').style.display = 'block';
-    document.querySelector('.whatsapp-btn').style.display = 'inline-block';
+
+    // Show WhatsApp and Facebook buttons
+    const buttonsContainer = document.querySelector('.final-buttons');
+    buttonsContainer.classList.add('show');
+    buttonsContainer.querySelectorAll('a').forEach(btn => btn.style.display = 'inline-block');
+
+    // Trigger confetti
     triggerConfetti();
-    
-    // Additional confetti for the final celebration
     setTimeout(() => triggerConfetti(), 500);
     setTimeout(() => triggerConfetti(), 1000);
     setTimeout(() => triggerConfetti(), 1500);
+
+    // Floating hearts on buttons
+    buttonsContainer.querySelectorAll('a').forEach(btn => {
+        for(let i = 0; i < 5; i++) {
+            const heart = document.createElement('span');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+            heart.style.left = `${Math.random() * 80 + 10}%`;
+            heart.style.animationDuration = `${1 + Math.random()}s`;
+            btn.appendChild(heart);
+
+            // Remove hearts after animation ends
+            setTimeout(() => heart.remove(), 1200);
+        }
+    });
 }
 
+// ==============================
+// Confetti function
+// ==============================
 function triggerConfetti() {
     confetti({
         particleCount: 100,
